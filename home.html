@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Fill this form to check for a Defaulter </title>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Parisienne' rel='stylesheet' type='text/css'> <!-- Added font link -->
+  <style>
+    body {
+      background-color: #87ceeb; /* Sky blue background */
+      font-family: 'Arimo', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .predict {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center; /* Added to center the button */
+    }
+    
+    h2 {
+      margin-top: 1;
+      font-size: 36px; /* Increased font size */
+      color: #333;
+      width: 100%;
+      text-align: center; /* Centered text */
+      font-family: 'Parisienne', cursive; /* Changed font to Parisienne */
+    }
+    
+    fieldset {
+      margin-bottom: 20px; /* Increased margin bottom */
+      padding: 20px;
+      border: 2px solid #ddd; /* Increased border thickness */
+      border-radius: 12px; /* Rounded corners */
+      background-color: #f9f9f9;
+      flex: 1;
+      margin-right: 20px; /* Increased margin right */
+    }
+    
+    legend {
+      font-weight: bold;
+      color: #666;
+      font-size: 18px; /* Increased font size */
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 10px; /* Increased margin bottom */
+      color: #333;
+    }
+    
+    input[type="text"],
+    input[type="number"] {
+      width: calc(70% -1px);
+      margin-right: 10px;
+      padding: 12px; /* Increased padding */
+      border: 2px solid #ccc; /* Increased border thickness */
+      border-radius: 8px; /* Rounded corners */
+      box-sizing: border-box;
+    }
+    
+    input[type="radio"] {
+      margin-right: 8px; /* Adjusted margin */
+    }
+    
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 14px 24px; /* Increased padding */
+      font-size: 18px; /* Increased font size */
+      cursor: pointer;
+      border-radius: 8px; /* Rounded corners */
+      transition: background-color 0.3s; /* Smooth hover transition */
+    }
+    
+    button:hover {
+      background-color: #0056b3; /* Darker color on hover */
+    }
+    
+    .result {
+      border: 2px solid #ddd; /* Increased border thickness */
+      padding: 20px;
+      border-radius: 8px; /* Rounded corners */
+      background-color: #f9f9f9;
+      width: 100%;
+      color: green; /* Default color */
+      margin-top: 20px; /* Increased margin top */
+    }
+    
+    .result.defaulter {
+      background-color: #f8d7da;
+      color: red;
+    }
+    
+    .radio-group {
+      display: flex;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="predict">
+    <h2>Fill this form to check for a Defaulter</h2>
+    <form action="{{ url_for('predict') }}" method="post">
+      <fieldset class="fieldset-inline">
+        <legend><b>Demographic data:</b></legend>
+        
+        <label><b>Gender:</b></label>
+        <div class="radio-group">
+          <input type="radio" id="male" name="gender" value="1" required="required" />
+          <label for="male">Male</label>
+          <input type="radio" id="female" name="gender" value="2" required="required" />
+          <label for="female">Female</label>
+        </div>
+        <br>
+
+        <label><b>Education:</b></label>
+        <div class="radio-group">
+          <input type="radio" id="graduate_school" name="education" value="1" required="required"/>
+          <label for="graduate_school">Graduate School</label>
+          <input type="radio" id="university" name="education" value="2" required="required"/>
+          <label for="university">University</label>
+          <input type="radio" id="high_school" name="education" value="3" required="required"/>
+          <label for="high_school">High School</label>
+          <input type="radio" id="others" name="education" value="4" required="required"/>
+          <label for="others">Others</label>
+          <input type="radio" id="unknown" name="education" value="5" required="required"/>
+          <label for="unknown">Unknown</label>
+        </div>
+        <br>
+
+        <label><b>Marital Status:</b></label>
+        <div class="radio-group">
+          <input type="radio" id="married" name="marriage" value="1" required="required"/>
+          <label for="married">Married</label>
+          <input type="radio" id="single" name="marriage" value="2" required="required"/>
+          <label for="single">Single</label>
+          <input type="radio" id="others" name="marriage" value="3" required="required"/>
+          <label for="others">Others</label>
+        </div>
+        <br>
+
+        <label for="age"><b>Age:</b></label>
+        <div class="radio-group">
+          <input type="text" name="age" placeholder="in years" required="required" />
+        </div>
+        <br>
+
+        <label><b>Limit Balance:</b><br>
+        Amount of given credit in dollar (includes individual and family/supplementary credit)</label>
+        <input type="text" name="limit_bal" placeholder="amount in dollar" required="required" />
+      </fieldset>
+      
+      <fieldset class="fieldset-inline">
+        <legend><b>Behavioral data:</b></legend>
+
+        <div class="repay_status_parent">
+          <label><b>Repayment Status:</b></label>
+          (-1=pay duly, 1=one month delay, 2=two months delay, … 9=delay for nine months and above)</p>     
+          <div style="float:left; margin-right: 1.5em;">
+            <label for="repay_status">April</label><br>
+            <input name="pay_6" id="pay_6" min="-2" max="9" type="number" value="0" required>
+          </div>
+          <div style="float:left; margin-right: 1.5em;">
+            <label for="repay_status">May</label><br>
+            <input name="pay_5" id="pay_5" min="-2" max="9" type="number" value="0" required>
+          </div>
+          <div style="float:left; margin-right: 1.5em;">
+            <label for="repay_status">June</label><br>
+            <input name="pay_4" id="pay_4" min="-2" max="9" type="number" value="0" required>
+          </div>
+          <div style="float:left; margin-right: 1.5em;">
+            <label for="repay_status">July</label><br>
+            <input name="pay_3" id="pay_3" min="-2" max="9" type="number" value="0" required>
+          </div>
+          <div style="float:left; margin-right: 1.5em;">
+            <label for="repay_status">August</label><br>
+            <input name="pay_2" id="pay_2" min="-2" max="9" type="number" value="0" required>
+          </div>
+          <div style="float:left;">
+            <label for="repay_status">September</label><br>
+            <input name="pay_0" id="pay_0" min="-2" max="9" type="number" value="0" required>
+          </div>
+        </div>
+        
+        <br><br><br><br><br>
+
+        <div class="bill_amount_parent">
+          <label><b>Bill Amounts:</b></label>
+          <p>Amount of bill statements (in dollars)</p>
+          <div style="display: flex; flex-wrap: wrap;">
+              <div style="margin-right: 1.5em;">
+                  <label for="bill_amt6">April</label>
+                  <input name="bill_amt6" id="bill_amt6" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="bill_amt5">May</label>
+                  <input name="bill_amt5" id="bill_amt5" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="bill_amt4">June</label>
+                  <input name="bill_amt4" id="bill_amt4" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="bill_amt3">July</label>
+                  <input name="bill_amt3" id="bill_amt3" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="bill_amt2">August</label>
+                  <input name="bill_amt2" id="bill_amt2" value="0" type="text" required>
+              </div>
+              <div>
+                  <label for="bill_amt1">September</label>
+                  <input name="bill_amt1" id="bill_amt1" value="0" type="text" required>
+              </div>
+          </div>
+        </div>
+
+        <br><br>
+
+        <div class="previous_payments_parent">
+          <label><b>Previous Payments:</b></label>
+          <p>Amount of previous payments (in dollars)</p>
+          <div style="display: flex; flex-wrap: wrap;">
+              <div style="margin-right: 1.5em;">
+                  <label for="pay_amt6">April</label>
+                  <input name="pay_amt6" id="pay_amt6" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="pay_amt5">May</label>
+                  <input name="pay_amt5" id="pay_amt5" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="pay_amt4">June</label>
+                  <input name="pay_amt4" id="pay_amt4" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="pay_amt3">July</label>
+                  <input name="pay_amt3" id="pay_amt3" value="0" type="text" required>
+              </div>
+              <div style="margin-right: 1.5em;">
+                  <label for="pay_amt2">August</label>
+                  <input name="pay_amt2" id="pay_amt2" value="0" type="text" required>
+              </div>
+              <div>
+                  <label for="pay_amt1">September</label>
+                  <input name="pay_amt1" id="pay_amt1" value="0" type="text" required>
+              </div>
+          </div>
+        </div>
+        
+      </fieldset>
+
+      <button type="submit">Predict</button>
+    </form>
+    <div class="result">
+      {% if prediction_text %}
+      <p><b>{{ prediction_text }}</b></p>
+      {% endif %} 
+    </div>
+  </div>
+</body>
+
+</html>
