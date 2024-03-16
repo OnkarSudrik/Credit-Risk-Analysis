@@ -23,7 +23,7 @@ The project is divided into two main parts:
 ## User Interface
 The web application provides a user-friendly interface for users to input their information and receive predictions. Below is a screenshot of the user interface:
 
-![User Interface]("D:\Project\new_projects\Credit_Risk_Prediction\UI.png")
+![User Interface](https://github.com/OnkarSudrik/Credit-Risk-Analysis/raw/main/UI.png)
 
 ## Technologies Used
 
